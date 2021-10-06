@@ -1,10 +1,11 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import re
 import argparse
 
-def bin2mem(ibinfile):
-    obinfile = re.sub('.bin$', '.mem', ibinfile)
+def bin2mem(ibinfile, obinfile=None):
+    if not obinfile:
+        obinfile = re.sub('.bin$', '.mem', ibinfile)
 
     IFILE = open(ibinfile, "rb")
     OFILE = open(obinfile, "w")
@@ -32,7 +33,8 @@ def bin2mem(ibinfile):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='RISCV Binary to SystemVerilog Memory Converter')
     parser.add_argument('--bin', default=None, help="--bin <file.bin> Specify binary file to be processed")
+    parser.add_argument('--mem', default=None, help="--bin <file.mem> Specify memory initialization file")
 
     args = parser.parse_args()
 
-    bin2mem(args.bin)
+    bin2mem(args.bin, args.mem)
